@@ -35,7 +35,7 @@ public class BasicItemController {
         return "basic/addForm";
     }
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String addItemV1(@RequestParam String itemName,
                             @RequestParam int price,
                             @RequestParam Integer quantity,
@@ -48,6 +48,51 @@ public class BasicItemController {
         itemRepository.save(item);
 
         model.addAttribute("item", item);
+
+        return "basic/item";
+    }
+
+    /**
+     * @ModelAttribute("item") Item item
+     * model.addAttribute("item", item); 자동 추가
+     * */
+//    @PostMapping("/add")
+    public String addItemV2(@ModelAttribute("item") Item item, Model model) {
+        // @ModelAttribute는 2가지 역할을 함
+        // 1. Item 객체를 생성하고, 요청 param의 값을 property 접근법(setXxx)로 입력해줌
+        // 2. @ModelAttribute로 지정한 객체("item)을 Model에 자동으로 넣어준다
+
+        itemRepository.save(item);
+
+//        model.addAttribute("item", item); // 자동 추가! 생략 가능
+
+        return "basic/item";
+    }
+
+    /**
+     * @ModelAttribute name 생략 가능
+     * model.addAttribute(item); 자동 추가, 생략 가능
+     * 생략시 model에 저장되는 name은 클래스명 첫글자만 소문자로 등록 Item -> item
+     * */
+//    @PostMapping("/add")
+    public String addItemV3(@ModelAttribute Item item, Model model) {
+        // @ModelAttribute에 name을 넣지 않으면 class 이름의 첫글자를 소문자로 바꿔서 역할 수행
+
+        itemRepository.save(item);
+
+        return "basic/item";
+    }
+
+
+    /**
+     * @ModelAttribute 자체 생략 가능
+     * model.addAttribute(item) 자동 추가
+     * */
+    @PostMapping("/add")
+    public String addItemV4(Item item, Model model) {
+        // @ModelAttribute에 name을 넣지 않으면 class 이름의 첫글자를 소문자로 바꿔서 역할 수행
+
+        itemRepository.save(item);
 
         return "basic/item";
     }
