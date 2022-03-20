@@ -88,13 +88,23 @@ public class BasicItemController {
      * @ModelAttribute 자체 생략 가능
      * model.addAttribute(item) 자동 추가
      * */
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String addItemV4(Item item, Model model) {
         // @ModelAttribute에 name을 넣지 않으면 class 이름의 첫글자를 소문자로 바꿔서 역할 수행
 
         itemRepository.save(item);
 
         return "basic/item";
+    }
+
+
+    /**
+     * PRG - Post/Redirect/Get
+     */
+    @PostMapping("/add")
+    public String addItemV5(Item item) {
+        itemRepository.save(item);
+        return "redirect:/basic/items/" + item.getId();
     }
 
     @GetMapping("/{itemId}/edit")
